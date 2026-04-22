@@ -19,12 +19,18 @@ module.exports = {
     extend: {
       colors: {
         brand: '#0A4874',
-        sale: '#E53935',
+        sale: '#FF0000',
         ink: '#111111',
         hairline: '#E8E8E8',
       },
       fontFamily: {
-        display: ['"Franklin Gothic ATF"', 'Franklin Gothic', 'Arial Narrow', 'sans-serif'],
+        display: [
+          '"Libre Franklin"',
+          '"Franklin Gothic ATF"',
+          '"Franklin Gothic"',
+          '"Arial Narrow"',
+          'sans-serif',
+        ],
         sans: ['Roboto', 'system-ui', 'sans-serif'],
       },
     },

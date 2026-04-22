@@ -1,0 +1,85 @@
+{%- doc -%}
+  Domaine product card color swatches.
+
+  Looks up the first product option whose name matches "Color" (or the
+  localized equivalent "Colour") and renders one 20x20 circular swatch per
+  value. When there is no color option, nothing is rendered so the layout
+  collapses cleanly.
+
+  Swatch color resolution order:
+    1. Shopify native swatch color (`value.swatch.color`) — merchant-configured
+       in Admin > Settings > Products.
+    2. The value handleized and used as a CSS named color as a graceful
+       fallback (e.g. "Navy" -> navy).
+
+  @param {object} product - The product whose options should be rendered
+  @param {object} current_variant - The currently selected variant (drives the
+    initial aria-checked state)
+{%- enddoc -%}
+
+{%- liquid
+  assign color_option = null
+  for option in product.options_with_values
+    assign name_down = option.name | downcase
+    if name_down == 'color' or name_down == 'colour'
+      assign color_option = option
+      break
+    endif
+  endfor
+
+  assign color_position = 0
+  if color_option != blank
+    assign color_position = color_option.position | minus: 1
+  endif
+
+  assign current_color = ''
+  if current_variant != blank
+    assign current_color = current_variant.options[color_position]
+  endif
+-%}
+
+{%- if color_option != blank and color_option.values.size > 1 -%}
+  <div
+    class="dm-flex dm-items-center dm-gap-2"
+    role="radiogroup"
+    aria-label="{{ color_option.name | escape }}"
+    data-swatches
+  >
+    {%- for value in color_option.values -%}
+      {%- assign handle = value | handleize -%}
+      {%- assign is_selected = false -%}
+      {%- if value == current_color -%}
+        {%- assign is_selected = true -%}
+      {%- endif -%}
+
+      {%- assign matching_variant_id = blank -%}
+      {%- for variant in product.variants -%}
+        {%- assign option_value = variant.options[color_position] -%}
+        {%- if option_value == value -%}
+          {%- assign matching_variant_id = variant.id -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if value.swatch.color -%}
+        {%- assign swatch_color = value.swatch.color -%}
+      {%- else -%}
+        {%- assign swatch_color = handle -%}
+      {%- endif -%}
+
+      <button
+        type="button"
+        role="radio"
+        aria-checked="{{ is_selected }}"
+        aria-label="{{ value | escape }}"
+        title="{{ value | escape }}"
+        data-swatch="{{ handle }}"
+        data-variant-id="{{ matching_variant_id }}"
+        class="dm-size-5 dm-shrink-0 dm-rounded-full dm-ring-offset-1 dm-ring-offset-white dm-transition hover:dm-ring-1 hover:dm-ring-ink/40 {% if is_selected %}dm-ring-1 dm-ring-ink{% endif %}"
+        style="background-color: {{ swatch_color }};"
+      >
+        <span class="dm-sr-only">{{ value }}</span>
+      </button>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

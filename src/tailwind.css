@@ -12,11 +12,21 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Mini-preflight scoped to `.dm-scope`. Preflight is disabled globally in
+   * tailwind.config.js so Tailwind's reset never leaks into Horizon, but we
+   * still need the bits Tailwind normally provides (border defaults and
+   * margin resets) or markup inside `.dm-scope` has to fight browser defaults
+   * with inline utility classes.
+   */
   .dm-scope,
-  .dm-scope * ,
+  .dm-scope *,
   .dm-scope *::before,
   .dm-scope *::after {
     box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e8e8e8;
   }
 
   .dm-scope {
@@ -24,6 +34,25 @@
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Roboto', system-ui, sans-serif;
     color: #111111;
+  }
+
+  .dm-scope h1,
+  .dm-scope h2,
+  .dm-scope h3,
+  .dm-scope h4,
+  .dm-scope h5,
+  .dm-scope h6,
+  .dm-scope p,
+  .dm-scope figure,
+  .dm-scope blockquote {
+    margin: 0;
+  }
+
+  .dm-scope ul,
+  .dm-scope ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .dm-scope img,
@@ -36,7 +65,6 @@
     font: inherit;
     color: inherit;
     background: none;
-    border: 0;
     padding: 0;
     cursor: pointer;
   }
@@ -44,5 +72,9 @@
   .dm-scope a {
     color: inherit;
     text-decoration: none;
+  }
+
+  domaine-product-card {
+    display: block;
   }
 }
