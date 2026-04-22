@@ -1,0 +1,48 @@
+/*
+ * Tailwind entry point for the Domaine product card.
+ *
+ * Preflight is disabled globally (see tailwind.config.js) to avoid clobbering
+ * Horizon's baseline styles. Instead, we re-apply a minimal, scoped reset
+ * inside `.dm-scope` so our Domaine components get predictable defaults
+ * without leaking into the rest of the theme.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .dm-scope,
+  .dm-scope * ,
+  .dm-scope *::before,
+  .dm-scope *::after {
+    box-sizing: border-box;
+  }
+
+  .dm-scope {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Roboto', system-ui, sans-serif;
+    color: #111111;
+  }
+
+  .dm-scope img,
+  .dm-scope svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  .dm-scope button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .dm-scope a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

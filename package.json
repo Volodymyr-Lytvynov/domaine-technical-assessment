@@ -1,0 +1,13 @@
+{
+  "name": "domaine-technical-assessment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Horizon theme customizations for the Domaine technical assessment. Tailwind CSS is compiled to assets/tailwind.css via the Tailwind CLI.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
+    "dev:css": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
