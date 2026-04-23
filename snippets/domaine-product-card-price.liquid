@@ -1,0 +1,33 @@
+{%- doc -%}
+  Domaine product card price line.
+
+  Re-rendered client-side by `<domaine-product-card>` on swatch change, so the
+  output markup stays flat and free of variant-dependent Liquid branches that
+  the JS cannot recreate.
+
+  @param {object} variant - The variant whose pricing should be displayed
+{%- enddoc -%}
+
+{% liquid
+  assign compare = variant.compare_at_price
+  assign price = variant.price
+  assign on_sale = false
+  if compare != blank and compare > price
+    assign on_sale = true
+  endif
+%}
+
+<div class="dm-flex dm-items-center dm-gap-2 dm-text-sm">
+  {% if on_sale %}
+    <span class="dm-text-ink dm-line-through">{{ compare | money }}</span>
+    <span class="dm-text-sale">{{ price | money }}</span>
+  {% else %}
+    <span class="dm-text-ink">{{ price | money }}</span>
+  {% endif %}
+
+  {% unless variant.available %}
+    <span class="dm-text-ink/60">
+      {{ 'products.product.sold_out' | t | default: 'Sold out' }}
+    </span>
+  {% endunless %}
+</div>

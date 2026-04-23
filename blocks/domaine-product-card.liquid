@@ -1,0 +1,45 @@
+{%- liquid
+  assign product = block.settings.product
+-%}
+
+{% if product != blank %}
+  {% render 'domaine-product-card', product: product, block: block %}
+{% else %}
+  <domaine-product-card class="dm-scope" data-placeholder="true" {{ block.shopify_attributes }}>
+    <div class="dm-relative dm-aspect-[315/340] dm-overflow-hidden dm-rounded-[10px] dm-border dm-border-hairline dm-bg-white">
+      <div class="dm-absolute dm-inset-[20px] dm-bg-hairline/40"></div>
+    </div>
+    <div class="dm-mt-4 dm-flex dm-flex-col dm-gap-4">
+      <div class="dm-flex dm-gap-2">
+        {% for i in (1..4) %}
+          <span class="dm-size-5 dm-rounded-full dm-bg-hairline"></span>
+        {% endfor %}
+      </div>
+      <div class="dm-flex dm-flex-col dm-gap-1.5">
+        <p class="dm-text-sm dm-text-ink">Brand name</p>
+        <p class="dm-text-base dm-font-medium dm-text-brand">Product title</p>
+        <p class="dm-text-sm dm-text-ink">$0.00</p>
+      </div>
+    </div>
+  </domaine-product-card>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Domaine product card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Domaine product card",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
